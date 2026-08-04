@@ -1,4 +1,4 @@
-# 🎯 Sniper Montage Maker
+# Game kills Montage Maker
 
 Automatically stitch your best COD sniper clips into a single, polished montage — complete with smooth crossfade transitions, audio fades, and dedicated intro/outro support.
 
@@ -51,8 +51,8 @@ sniper_montage_maker/
 ### 1. Clone the repo
 
 ```bash
-git clone https://github.com/your-username/sniper_montage_maker.git
-cd sniper_montage_maker
+git clone https://github.com/umashankar47/pyMontage.git
+cd pyMontage
 ```
 
 ### 2. Install dependencies
