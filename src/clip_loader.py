@@ -13,7 +13,8 @@ class ClipLoader:
     def find_video_files(self) -> List[Path]:
         files = []
         for ext in self.SUPPORTED_EXTENSIONS:
-            files.extend(Path(self.config.input_folder).glob(ext))
+            # files.extend(Path(self.config.input_folder).glob(ext))
+            files.extend(Path(self.config.input_folder).suffix.lower())
 
         if not files:
             raise FileNotFoundError(f"No videos found in '{self.config.input_folder}'")
@@ -63,11 +64,18 @@ class ClipLoader:
         print(f"Found {len(files)} clips")
 
         clips = []
-        for file in tqdm(files):
-            clip = VideoFileClip(str(file))
-            if self.config.remove_audio:
-                clip = clip.without_audio()
-            clips.append(clip)
+
+        try:
+            for file in tqdm(files):
+                clip = VideoFileClip(str(file))
+                if self.config.remove_audio:
+                    clip = clip.without_audio()
+                clips.append(clip)
+        finally:
+            for clip in clips:
+                clip.close()
+
+        
 
         return self._normalize_sizes(clips)
 

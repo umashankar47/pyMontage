@@ -1,3 +1,4 @@
+import datetime
 from pathlib import Path
 
 class OutputManager:
@@ -10,11 +11,13 @@ class OutputManager:
 
         stem = Path(self.config.output_name).stem
         suffix = Path(self.config.output_name).suffix
-        candidate = folder / self.config.output_name
+        timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+
+        candidate = folder / f"{stem}_{timestamp}{suffix}"
 
         counter = 1
         while candidate.exists():
-            candidate = folder / f"{stem}_{counter}{suffix}"
+            candidate = folder / f"{stem}_{timestamp}_{counter}{suffix}"
             counter += 1
 
         return candidate

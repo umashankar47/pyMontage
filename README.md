@@ -88,7 +88,7 @@ All settings live in `src/config.py` / are passed into `MontageConfig`:
 |-----------------------|-----------------------|----------------------------------------------------|
 | `input_folder`         | `"clips"`             | Folder to scan for input clips                     |
 | `output_folder`        | `"output_clips"`      | Folder where the final video is saved              |
-| `output_name`          | `"sniper_montage.mp4"`| Base filename (auto-incremented if it exists)       |
+| `output_name`          | `"CallOfDuty.mp4"`| Base filename (auto-incremented if it exists)       |
 | `transition`           | `0.4`                 | Crossfade duration in seconds                       |
 | `fps`                  | `60`                  | Output framerate                                    |
 | `random_order`         | `False`               | Shuffle middle clips (intro/outro stay pinned)      |
