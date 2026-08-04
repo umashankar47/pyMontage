@@ -3,9 +3,9 @@ from typing import Optional, Tuple
 
 @dataclass
 class MontageConfig:
-    input_folder: str = "clips"
-    output_folder: str = "output_clips"
-    output_name: str = "sniper_montage.mp4"
+    input_folder: str = "pyMontage/clips"
+    output_folder: str = "pyMontage/output_clips"
+    output_name: str = "CallOfDuty.mp4"
     transition: float = 0.4
     fps: int = 60
     random_order: bool = False
