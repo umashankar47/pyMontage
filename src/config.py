@@ -23,20 +23,20 @@ class MontageConfig:
     preset: str = "medium"
 
 
-def __post_init__(self) -> None:
-        if self.transition < 0:
-            raise ValueError("transition must be greater than or equal to 0")
+    def __post_init__(self) -> None:
+            if self.transition < 0:
+                raise ValueError("transition must be greater than or equal to 0")
 
-        if self.fps <= 0:
-            raise ValueError("fps must be greater than 0")
+            if self.fps <= 0:
+                raise ValueError("fps must be greater than 0")
 
-        if self.threads <= 0:
-            raise ValueError("threads must be greater than 0")
+            if self.threads <= 0:
+                raise ValueError("threads must be greater than 0")
 
-        if self.target_resolution is not None:
-            width, height = self.target_resolution
+            if self.target_resolution is not None:
+                width, height = self.target_resolution
 
-            if width <= 0 or height <= 0:
-                raise ValueError(
-                    "target_resolution width and height must be positive integers"
-                )
+                if width <= 0 or height <= 0:
+                    raise ValueError(
+                        "target_resolution width and height must be positive integers"
+                    )
