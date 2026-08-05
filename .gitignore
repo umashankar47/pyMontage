@@ -1,0 +1,13 @@
+# Output videos
+output_clips/
+clips/
+
+# Ignore all videos
+*.mp4
+*.mov
+*.mkv
+*.avi
+
+# Python cache
+__pycache__/
+*.pyc

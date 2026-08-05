@@ -1,3 +1,4 @@
+import subprocess
 import random
 from pathlib import Path
 from typing import List, Optional
@@ -10,6 +11,33 @@ class ClipLoader:
     def __init__(self, config):
         self.config = config
         self._loaded_clips: List[VideoFileClip] = []
+        self._cache_dir = Path(config.input_folder) / ".normalized"
+        self._cache_dir.mkdir(exist_ok=True)
+
+    def _normalize_to_cfr(self, file: Path) -> Path:
+        """Convert VFR clip to constant 30 FPS for safe MoviePy loading."""
+        cached = self._cache_dir / f"{file.stem}_cfr.mp4"
+        if cached.exists():
+            return cached
+
+        print(f"  Normalizing {file.name} to CFR...")
+        cmd = [
+            "ffmpeg", "-y", "-hide_banner", "-loglevel", "warning",
+            "-i", str(file),
+            "-c:v", "libx264", "-preset", "fast", "-crf", "18",
+            "-r", "30",
+            "-vf", "format=yuv420p",
+            "-c:a", "aac", "-b:a", "192k", "-ar", "44100", "-ac", "2",
+            "-movflags", "+faststart",
+            str(cached),
+        ]
+
+        result = subprocess.run(cmd, capture_output=True, text=True)
+        if result.returncode != 0:
+            print(f"  ⚠ Normalize failed for {file.name}, using original")
+            return file
+
+        return cached
 
     def find_video_files(self) -> List[Path]:
         files = []
@@ -77,10 +105,15 @@ class ClipLoader:
 
         try:
             for file in tqdm(files):
-                clip = VideoFileClip(str(file))
+                safe_file = self._normalize_to_cfr(file)
+                clip = VideoFileClip(str(safe_file))
+
                 if self.config.remove_audio:
+                    print(f"Removing audio from clip: {file.name}")
                     clip = clip.without_audio()
+
                 clips.append(clip)
+
         except Exception as e:
             for clip in clips:
                 clip.close()
